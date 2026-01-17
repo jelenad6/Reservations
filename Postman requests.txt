@@ -1,0 +1,99 @@
+POST http://localhost:8080/Reservations/api/auth/login
+
+{
+  "username": "jelena",
+  "password": "jelena123"
+}
+
+GET http://localhost:8080/Reservations/api/resources/<ResourceID>
+Dobijamo listu slobodnih datuma sa resursima za koje su dostupni
+
+primer: http://localhost:8080/Reservations/api/resources/3
+
+Za dinamicko generisanje datuma:
+
+GET http://localhost:8080/Reservations/api/slots/4/2026-01-11
+
+POST http://localhost:8080/Reservations/api/reservations/
+(za kreiranje rezervacija po slotID (odgovara tacnom resursu i datumu)
+
+{
+  "userId": 2,
+  "slotId": 53,
+  "status": "ACTIVE"
+}
+
+PUT http://localhost:8080/Reservations/api/reservations/
+Na osnovu id-a koji se dobije iz prethodnog request-a mozemo da update-ujemo rezervaciju za drugi datum
+
+{
+  "id": 6,
+  "userId": 2,
+  "slotId": 52,
+  "status": "ACTIVE",
+  "seriesId": null
+}
+
+DELETE http://localhost:8080/Reservations/api/reservations/<reservation id>
+
+Brisanje postojece rezervacije, primer: http://localhost:8080/Reservations/api/reservations/6
+
+POST http://localhost:8080/Reservations/api/reservations/series
+
+{
+  "userId": 2,
+  "slotId": 3,
+  "type": "daily",
+  "startDate": "2026-01-07",
+  "endDate": "2026-02-10"
+}
+
+Primer 2:
+
+{
+  "userId": 2,
+  "slotId": 1,
+  "type": "weekly",
+  "startDate": "2026-01-09",
+  "endDate": "2026-02-07"
+}
+
+MyReservations - implementirano ovakvim Postman request-om:
+
+GET http://localhost:8080/Reservations/api/reservations/user/<UserID>
+
+Primer: http://localhost:8080/Reservations/api/reservations/user/1
+
+Postman response:
+
+[
+    {
+        "id": 2,
+        "userId": 1,
+        "slotId": 50,
+        "status": "ACTIVE",
+        "seriesId": 0
+    },
+    {
+        "id": 3,
+        "userId": 1,
+        "slotId": 4,
+        "status": "ACTIVE",
+        "seriesId": 1
+    },
+    {
+        "id": 4,
+        "userId": 1,
+        "slotId": 20,
+        "status": "ACTIVE",
+        "seriesId": 1
+    },
+    {
+        "id": 5,
+        "userId": 1,
+        "slotId": 62,
+        "status": "ACTIVE",
+        "seriesId": 1
+    }
+]
+
