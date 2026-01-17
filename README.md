@@ -16,7 +16,7 @@ Nakon izbora termina, rezervacija se kreira korišćenjem slotId.
 
 Dostupnost termina proverava se pre svake rezervacije. Termin je zauzet ukoliko već postoji aktivna (ACTIVE) rezervacija za dati slotId. Sistem ne dozvoljava preklapanje rezervacija.
 
-**Rezervaciona serija **
+**Rezervaciona serija**
 
 Implementirana je pomoću entiteta ReservationSeries, dok pojedinačne rezervacije sadrže opcioni series_id. Jedna serija može imati više rezervacija, dok rezervacija može, ali ne mora, pripadati seriji.
 Prilikom kreiranja serije, sistem automatski generiše rezervacije za odgovarajuće datume (daily, weekly, monthly), uz proveru dostupnosti termina i korišćenje transakcija.
