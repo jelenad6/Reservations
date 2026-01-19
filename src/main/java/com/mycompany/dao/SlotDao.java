@@ -43,7 +43,7 @@ public class SlotDao {
         return reserved;
     }
 
-    // ✅ NOVO: Nadji slot po ID
+    
     public Slot findById(int slotId, Connection con) throws SQLException {
 
         PreparedStatement ps = null;
@@ -69,7 +69,7 @@ public class SlotDao {
         }
     }
 
-    // ✅ NOVO: Nadji slot po resourceId + date + time
+  
     public Slot findByResourceDateTime(int resourceId,
                                        LocalDate date,
                                        LocalTime time,
@@ -159,3 +159,4 @@ public class SlotDao {
         return id;
     }
 }
+
