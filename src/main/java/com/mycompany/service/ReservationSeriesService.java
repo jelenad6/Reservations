@@ -32,7 +32,7 @@ public class ReservationSeriesService {
         Connection con = null;
 
         try {
-            // 0) validacije pre parsiranja
+          
             if (series == null) {
                 throw new ReservationException("Request body is missing");
             }
@@ -40,7 +40,7 @@ public class ReservationSeriesService {
                 throw new ReservationException("Missing type/startDate/endDate");
             }
 
-            // 1) parsiraj String -> LocalDate
+           
             LocalDate start;
             LocalDate end;
             try {
@@ -57,13 +57,13 @@ public class ReservationSeriesService {
             con = ResourceManager.getConnection();
             con.setAutoCommit(false);
 
-            // 2) ubaci series (tabela ima: type + end_date)
+           
             int seriesId = seriesDao.insert(series, con);
             if (seriesId <= 0) {
                 throw new ReservationException("Series insert failed");
             }
 
-            // 3) base slot mora postojati (ovo je template: resurs + vreme)
+           
             Slot base = slotDao.findById(series.getSlotId(), con);
             if (base == null) {
                 throw new ReservationException("Base slot not found (slotId=" + series.getSlotId() + ")");
@@ -72,29 +72,29 @@ public class ReservationSeriesService {
             int resourceId = base.getResourceId();
             LocalTime time = base.getTime();
 
-            // 4) prolazak kroz datume
+         
             LocalDate current = start;
 
             while (!current.isAfter(end)) {
 
-                // pronadji slot za taj datum + isto vreme + isti resurs
+             
                 Slot slot = slotDao.findByResourceDateTime(resourceId, current, time, con);
 
                 if (slot == null) {
-                    // ako ne postoji, kreiraj ga
+                
                     Slot newSlot = new Slot(resourceId, current, time);
                     int newId = slotDao.insert(newSlot, con);
                     newSlot.setId(newId);
                     slot = newSlot;
                 }
 
-                // provera zauzetosti (single reservation logika)
+                // provera zauzetosti 
                 boolean available = reservationDao.isSlotAvailable(slot.getId(), con);
                 if (!available) {
                     throw new ReservationException("Slot already reserved for " + current + " " + time);
                 }
 
-                // insert reservation vezan za seriesId
+               
                 Reservation r = new Reservation();
                 r.setUserId(series.getUserId());
                 r.setSlotId(slot.getId());
@@ -103,7 +103,7 @@ public class ReservationSeriesService {
 
                 reservationDao.insert(r, con);
 
-                // sledeći datum
+     
                 String type = series.getType();
                 if (type == null) {
                     throw new ReservationException("Invalid series type");
@@ -138,3 +138,4 @@ public class ReservationSeriesService {
         }
     }
 }
+
