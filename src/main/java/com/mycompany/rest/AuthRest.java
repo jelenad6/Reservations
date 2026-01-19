@@ -46,18 +46,14 @@ public class AuthRest {
             return Response.ok(responseUser).build();
 
         } catch (Exception ex) {
-                    ex.printStackTrace(); // ovo će ti reći tačno šta se dešava
+                    ex.printStackTrace(); 
                     return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                    .entity(ex.getMessage())
                    .build();
 }
 
     }
-     // TEST GET endpoint
-    @GET
-    @Path("/test")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test() {
-        return "REST servis radi!";
-    }
+    
+  
 }
+
